@@ -26,17 +26,17 @@ func (e *JKSExporter) ExportMetrics(jksData []byte, password string, keyName, se
 			continue
 		}
 
-		for i, cert := range pkEntry.CertificateChain {
+		for i, cert := range pkEntry.CertChain {
 			parsedCert, err := x509.ParseCertificate(cert.Content)
 			if err != nil {
 				return fmt.Errorf("failed to parse cert at alias %s[%d]: %v", alias, i, err)
 			}
 
-			metricsData := secondsToExpiryFromCert(parsedCert)
+			metric := getCertificateMetrics(parsedCert)
 
-			metrics.SecretExpirySeconds.WithLabelValues(keyName, metricsData.issuer, metricsData.cn, secretName, secretNamespace).Set(metricsData.durationUntilExpiry)
-			metrics.SecretNotAfterTimestamp.WithLabelValues(keyName, metricsData.issuer, metricsData.cn, secretName, secretNamespace).Set(metricsData.notAfter)
-			metrics.SecretNotBeforeTimestamp.WithLabelValues(keyName, metricsData.issuer, metricsData.cn, secretName, secretNamespace).Set(metricsData.notBefore)
+			metrics.SecretExpirySeconds.WithLabelValues(keyName, metric.issuer, metric.cn, secretName, secretNamespace).Set(metric.durationUntilExpiry)
+			metrics.SecretNotAfterTimestamp.WithLabelValues(keyName, metric.issuer, metric.cn, secretName, secretNamespace).Set(metric.notAfter)
+			metrics.SecretNotBeforeTimestamp.WithLabelValues(keyName, metric.issuer, metric.cn, secretName, secretNamespace).Set(metric.notBefore)
 		}
 	}
 
@@ -48,4 +48,3 @@ func (e *JKSExporter) ResetMetrics() {
 	metrics.SecretNotAfterTimestamp.Reset()
 	metrics.SecretNotBeforeTimestamp.Reset()
 }
-
