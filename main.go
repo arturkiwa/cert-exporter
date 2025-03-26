@@ -132,6 +132,17 @@ func main() {
 		go configChecker.StartChecking()
 	}
 
+	jksChecker := checkers.NewJKSChecker(
+	    pollingPeriod,
+	    secretsLabelSelector,
+	    "cert-exporter.jks-password-secret",
+	    secretsNamespaces,
+	    kubeconfigPath,
+	    &exporters.JKSExporter{},
+	)
+	go jksChecker.Run(ctx)
+
+
 	if len(certRequestsLabelSelector) > 0 || len(certRequestsAnnotationSelector) > 0 || certRequestsEnabled {
 		certRequestNamespaces := getSanitizedNamespaceList(certRequestsListOfNamespaces, certRequestsNamespace)
 
