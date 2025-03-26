@@ -1,7 +1,7 @@
 package exporters
 
 import (
-	"github.com/joe-elliott/cert-exporter/src/metrics"
+	"github.com/arturkiwa/cert-exporter/src/metrics"
 )
 
 // WebhookExporter exports PEM file certs

@@ -11,8 +11,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/tools/clientcmd"
 
-	"github.com/joe-elliott/cert-exporter/src/exporters"
-	"github.com/joe-elliott/cert-exporter/src/metrics"
+	"github.com/arturkiwa/cert-exporter/src/exporters"
+	"github.com/arturkiwa/cert-exporter/src/metrics"
 )
 
 // PeriodicCertRequestChecker is an object designed to check for files on disk at a regular interval

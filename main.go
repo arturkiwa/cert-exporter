@@ -12,10 +12,10 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/joe-elliott/cert-exporter/src/args"
-	"github.com/joe-elliott/cert-exporter/src/checkers"
-	"github.com/joe-elliott/cert-exporter/src/exporters"
-	"github.com/joe-elliott/cert-exporter/src/metrics"
+	"github.com/arturkiwa/cert-exporter/src/args"
+	"github.com/arturkiwa/cert-exporter/src/checkers"
+	"github.com/arturkiwa/cert-exporter/src/exporters"
+	"github.com/arturkiwa/cert-exporter/src/metrics"
 )
 
 var (

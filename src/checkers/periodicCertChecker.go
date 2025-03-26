@@ -8,8 +8,8 @@ import (
 	"github.com/golang/glog"
 
 	"github.com/bmatcuk/doublestar/v4"
-	"github.com/joe-elliott/cert-exporter/src/exporters"
-	"github.com/joe-elliott/cert-exporter/src/metrics"
+	"github.com/arturkiwa/cert-exporter/src/exporters"
+	"github.com/arturkiwa/cert-exporter/src/metrics"
 )
 
 type certGlob struct {
