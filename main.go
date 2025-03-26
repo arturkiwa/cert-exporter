@@ -108,6 +108,8 @@ func init() {
 
 func main() {
 	flag.Parse()
+	ctx := context.Background()
+	secretsNamespaces := getSanitizedNamespaceList(secretsListOfNamespaces, secretsNamespace)
 	metrics.Init(prometheusExporterMetricsDisabled)
 
 	glog.Infof("Starting cert-exporter (version %s; commit %s; date %s)", version, commit, date)
@@ -126,15 +128,13 @@ func main() {
 		if len(includeSecretsDataGlobs) == 0 {
 			includeSecretsDataGlobs = args.GlobArgs([]string{"*"})
 		}
-		secretsNamespaces := getSanitizedNamespaceList(secretsListOfNamespaces, secretsNamespace)
-
 		configChecker := checkers.NewSecretChecker(pollingPeriod, secretsLabelSelector, includeSecretsDataGlobs, excludeSecretsDataGlobs, secretsAnnotationSelector, secretsNamespaces, secretsNamespaceLabelSelector, kubeconfigPath, &exporters.SecretExporter{}, includeSecretsTypes)
 		go configChecker.StartChecking()
 	}
 
 	jksChecker := checkers.NewJKSChecker(
 	    pollingPeriod,
-	    secretsLabelSelector,
+	    strings.Join(secretsLabelSelector, ","),
 	    "cert-exporter.jks-password-secret",
 	    secretsNamespaces,
 	    kubeconfigPath,
